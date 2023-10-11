@@ -14,18 +14,10 @@ import { TokenContext } from '../../redux/tokenContext';
 import Skenleton from '../skeleton/Skenleton';
 import { Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ChoseImage from './ChoseImage';
 
 const Setting = () => {
     const navigation = useNavigation();
-    const apiName = 'Nguyen Van A';
-    const apiBirthday = '2023-05-12';
-    const apiPhoneNumber = '0912345678';
-    const apiLinkFb = 'mr.otthanh';
-    const apiMyCar = 'Volvo S90';
-    const apiBankAccount = '1111222233334444';
-    const apiBankName = 'Techcombank';
-    const apiNameBankAccount = 'NGUYEN VAN A';
-    const img = 'https://media.a2b.vn/user/2023/05/12/khanhhoang-093520.jpg';
     const regex = /\d/;
     const base64Regex = /^data:image\/jpeg;base64/;
 
@@ -143,8 +135,6 @@ const Setting = () => {
                 }
             })
             .finally(() => setloading(false))
-        console.log(base64Regex.test(avatar));
-        console.log(avatar);
     }
 
     const handleLogout = async () => {
@@ -254,7 +244,7 @@ const Setting = () => {
                             </View>
 
                             {/* avatar */}
-                            {/* <View style={[styles.flexCenter, styles.my24]}>
+                            <View style={[styles.flexCenter, styles.my24]}>
                                 <ChoseImage
                                     avatar={avatar}
                                     width={114}
@@ -263,7 +253,7 @@ const Setting = () => {
                                     borderFull={styles.borderFull}
                                     onChangeImage={handleAvaterChange}
                                 />
-                            </View> */}
+                            </View>
 
                             {/* list */}
                             <View>

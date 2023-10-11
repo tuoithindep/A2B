@@ -1,4 +1,7 @@
 {
   "name": "ReactCLI",
-  "displayName": "ReactCLI"
+  "displayName": "ReactCLI",
+  "android": {
+    "package": "com.bokazem.reactcli"
+  }
 }
