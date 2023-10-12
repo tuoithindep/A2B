@@ -58,7 +58,7 @@ const LoginBtn = () => {
     const url = 'https://api.beta-a2b.work/login?email=' + encodeURIComponent(user.email) + '&fullname=' + encodeURIComponent(user.name) + '&picture=' + encodeURIComponent(user.photo);
     const responseUrl = await fetch(url);
     const result = await responseUrl.json();
-    // console.log(1);
+    // console.log(1);git 
     if (result.res == 'success') {
       // console.log(result.token);
       setLocalStorage(result.token);
