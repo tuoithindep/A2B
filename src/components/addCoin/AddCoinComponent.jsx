@@ -12,6 +12,8 @@ import { Dimensions } from 'react-native';
 import { Square2StackIcon } from 'react-native-heroicons/outline';
 import { fetchGetUserProfile } from '../../api/DataFetching'
 import { TokenContext } from '../../redux/tokenContext';
+import Clipboard from '@react-native-community/clipboard';
+
 const AddCoinComponent = () => {
     useEffect(() => {
         getUserProfile();
@@ -31,7 +33,7 @@ const AddCoinComponent = () => {
 
 
     const copyBankToClipboard = async () => {
-        await Clipboard.setStringAsync(bank);
+         Clipboard.setString(bank);
         Alert.alert(
             'Thành công',
             'Bạn đã sao chép thành công!',
@@ -41,7 +43,7 @@ const AddCoinComponent = () => {
         );
     };
     const copyBankNumberToClipboard = async () => {
-        await Clipboard.setStringAsync(bankNumber);
+         Clipboard.setString(bankNumber);
         Alert.alert(
             'Thành công',
             'Bạn đã sao chép thành công!',
@@ -51,7 +53,7 @@ const AddCoinComponent = () => {
         );
     };
     const copyBankNameToClipboard = async () => {
-        await Clipboard.setStringAsync(bankName);
+         Clipboard.setString(bankName);
         Alert.alert(
             'Thành công',
             'Bạn đã sao chép thành công!',
@@ -61,7 +63,7 @@ const AddCoinComponent = () => {
         );
     };
     const copyContentToClipboard = async () => {
-        await Clipboard.setStringAsync(content+userProfile?.user_id);
+        Clipboard.setString(content+userProfile?.user_id);
         Alert.alert(
             'Thành công',
             'Bạn đã sao chép thành công!',
