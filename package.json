@@ -12,6 +12,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.5.1",
     "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "^7.6.0",
     "@react-native-community/slider": "^4.4.3",
     "@react-navigation/bottom-tabs": "^6.5.9",
@@ -43,6 +44,7 @@
     "react-native-google-maps-directions": "^2.1.1",
     "react-native-heroicons": "^3.2.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-maps": "^1.7.1",
     "react-native-maps-directions": "^1.9.0",
     "react-native-pager-view": "^6.2.1",

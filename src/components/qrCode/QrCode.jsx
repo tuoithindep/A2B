@@ -4,6 +4,7 @@ import { SvgUri } from "react-native-svg";
 import { useEffect, useState } from "react";
 import { Square2StackIcon } from "react-native-heroicons/outline";
 import { fetchQrCode } from "../../api/DataFetching";
+import Clipboard from '@react-native-community/clipboard';
 
 const QrCode = ({item, contextDetailTrip, context}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -34,18 +35,18 @@ const QrCode = ({item, contextDetailTrip, context}) => {
         })
     }
 
-    // const copyBankNumber = async (bankNumber) => {
-    //     await Clipboard.setStringAsync(bankNumber);
-    //     setIsCopy(true);
-    //     Alert.alert(
-    //         'Thành công',
-    //         'Bạn đã sao chép số tài khoản ngân hàng thành công!',
-    //         [
-    //           { text: 'Đồng ý' }
-    //         ],
-    //         { cancelable: false }
-    //       );
-    // }
+    const copyBankNumber = async (bankNumber) => {
+        Clipboard.setString(bankNumber);
+        setIsCopy(true);
+        Alert.alert(
+            'Thành công',
+            'Bạn đã sao chép số tài khoản ngân hàng thành công!',
+            [
+              { text: 'Đồng ý' }
+            ],
+            { cancelable: false }
+          );
+    }
 
     return (
         <View
