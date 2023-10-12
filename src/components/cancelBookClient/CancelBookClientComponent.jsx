@@ -8,7 +8,7 @@ import { cancelBookClient } from '../../constants';
 import { fetchCancelTrip } from '../../api/DataFetching';
 import { BookingFormContext } from '../../redux/bookingFormContext';
 import { TokenContext } from '../../redux/tokenContext';
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+// import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { format } from 'date-fns';
 
 
@@ -47,33 +47,33 @@ const CancelBookClientComponent = () => {
         })
     }
 
-    const renderItem = (item) => {
-        return (
-            <RadioButtonGroup
-                containerStyle={{flexDirection: 'row',  marginBottom: 24}}
-                selected={selectedName}
-                onSelected={(value) => handleRadioChange(value)}
-                radioBackground="white"
-            >
-                <RadioButtonItem value={item.title} label={
-                    <View style={{marginLeft: 15}}>
-                        <Text
-                            style={[
-                                styles.textWhite,
-                                styles.fs16,
-                                styles.fw700,
-                                styles.lh24,
-                                styles.mb5,
-                            ]}
-                        >
-                            {item.title}
-                        </Text>
-                        <Text style={[styles.textGray77, styles.fs15, styles.fw400]}>{item.des}</Text>
-                    </View>
-                } />
-            </RadioButtonGroup>
-        );
-    };
+    // const renderItem = (item) => {
+    //     return (
+    //         <RadioButtonGroup
+    //             containerStyle={{flexDirection: 'row',  marginBottom: 24}}
+    //             selected={selectedName}
+    //             onSelected={(value) => handleRadioChange(value)}
+    //             radioBackground="white"
+    //         >
+    //             <RadioButtonItem value={item.title} label={
+    //                 <View style={{marginLeft: 15}}>
+    //                     <Text
+    //                         style={[
+    //                             styles.textWhite,
+    //                             styles.fs16,
+    //                             styles.fw700,
+    //                             styles.lh24,
+    //                             styles.mb5,
+    //                         ]}
+    //                     >
+    //                         {item.title}
+    //                     </Text>
+    //                     <Text style={[styles.textGray77, styles.fs15, styles.fw400]}>{item.des}</Text>
+    //                 </View>
+    //             } />
+    //         </RadioButtonGroup>
+    //     );
+    // };
 
     return (
         <SafeAreaView style={[styles.flexFull, styles.relative, styles.bgBlack]}>

@@ -3,36 +3,29 @@ import React, {useEffect, useContext } from 'react';
 import styles from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 import jwtDecode from 'jwt-decode';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import auth from '@react-native-firebase/auth';
 import { TokenContext } from '../../redux/tokenContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 const ios = Platform.OS == 'ios';
 
 const LoginBtn = () => {
   const navigation = useNavigation();
-  const androidClientId = '187142393375-7bp1qk9479dibdaepdpj3ibeotm4pr3p.apps.googleusercontent.com';
-  const webClientId = '187142393375-c2ai5ek3ap50qat3i710ucc9mirv4j2b.apps.googleusercontent.com';
+  const webClientId = '163795266938-trqmidf6j91271rnt4p9gr9n8c110rhn.apps.googleusercontent.com';
   const iosClientId = '187142393375-7u10eperhdm3fih7dgss8c05gtha5shs.apps.googleusercontent.com'
   const context = useContext(TokenContext);
-  // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   androidClientId: androidClientId,
-  //   webClientId: webClientId,
-  //   expoClientId: webClientId,
-  //   iosClientId: iosClientId,
-  // });
+  GoogleSignin.configure({
+    scopes: ['profile','email'],
+    webClientId: webClientId,
+    iosClientId: iosClientId,
+    offlineAccess: false
+  });
 
-  // Hành động được thực hiện sau khi component được render hoặc state thay đổi
-  // Có thể là các hành động bất đồng bộ như gọi API
-  // Đảm bảo rằng hành động không gây ra vòng lặp vô hạn
-  // Trả về một hàm cleanup (nếu cần) để xử lý khi component unmount hoặc state thay đổi
   useEffect(() => {
-    if (response?.type === 'success') {
-      // Xử lý thành công
-      getUserInfo(response.authentication.accessToken)
-    }
     getLocalStorage();
     // removeItem();
-  }, [response]) //truyen [] de goi useEffect 1 lan sau khi compoment mounted
+  }, []) //truyen [] de goi useEffect 1 lan sau khi compoment mounted
 
   const getLocalStorage = async () => {
     const checkToken = await AsyncStorage.getItem('token');
@@ -41,48 +34,28 @@ const LoginBtn = () => {
     }
   }
 
-  const removeItem = async () => {
-    await AsyncStorage.removeItem('token');
-  }
-
   const handleGoogleLogin = async () => {
     // Thực hiện các hành động mong muốn ở đây
-    // await promptAsync();
+    loginGG();
   }
 
-  // const handleAppleLogin = async () => {
-  //   try {
-  //     const credential = await AppleAuthentication.signInAsync({
-  //       requestedScopes: [
-  //         AppleAuthentication.AppleAuthenticationScope.EMAIL,
-  //         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-  //       ],
-  //     });
-  //     // console.log('Apple login credential:', credential);
-  //     const user = jwtDecode(credential.identityToken);
-  //     user.name = user.email.split('@')[0];
-  //     user.picture = '';
-  //     await login(user);
-  //   } catch (e) { 
-  //     console.log(e);
-  //   }
-  // }
-
-  const getUserInfo = async (token) => {
+  const loginGG = async () => {
     try {
-      const request = await fetch("https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      const user = await request.json();
-      await login(user);
-    } catch (err) {
-
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const {idToken} = await GoogleSignin.signIn();
+      const googleCredentials = auth.GoogleAuthProvider.credential(idToken);
+      auth().signInWithCredential(googleCredentials);
+      console.log(userInfo.user);
+      await login(userInfo.user);
+    } catch (error) {
+      console.log('Fail');
+      return false;
     }
   }
 
   const login = async (user) => {
-    const url = 'https://api.beta-a2b.work/login?email=' + encodeURIComponent(user.email) + '&fullname=' + encodeURIComponent(user.name) + '&picture=' + encodeURIComponent(user.picture) + '&123';
+    const url = 'https://api.beta-a2b.work/login?email=' + encodeURIComponent(user.email) + '&fullname=' + encodeURIComponent(user.name) + '&picture=' + encodeURIComponent(user.photo);
     const responseUrl = await fetch(url);
     const result = await responseUrl.json();
     // console.log(1);
@@ -101,7 +74,7 @@ const LoginBtn = () => {
     <View style={styles.mt60}>
       <TouchableOpacity onPress={() => handleGoogleLogin()}>
         <View style={[styles.bgRed, styles.flexCenter, styles.w250, styles.h48, styles.border4]}>
-          <FontAwesome name="google" style={[styles.textWhite, styles.fs28, styles.mr10]} />
+          <Icon name="google" style={[styles.textWhite, styles.fs28, styles.mr10]} />
           <Text style={[styles.fs16, styles.lh24, styles.textWhite]}>Đăng nhập qua Google</Text>
         </View>
       </TouchableOpacity>
@@ -117,7 +90,7 @@ const LoginBtn = () => {
               styles.mt20,
             ]}
           >
-            <FontAwesome name={'apple'} style={[styles.textWhite, styles.fs28, styles.mr10]} />
+            <Icon name={'apple'} style={[styles.textWhite, styles.fs28, styles.mr10]} />
             <Text style={[styles.fs16, styles.lh24, styles.textWhite]}>Đăng nhập qua Apple</Text>
           </View>
         </TouchableOpacity>

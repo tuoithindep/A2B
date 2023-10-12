@@ -102,8 +102,8 @@ const AppNavigation = () => {
               <BookingFormProvider>
                 <NavigationContainer>
                   <Stack.Navigator screenOptions={{ headerShown: false }}>
+                      <Stack.Screen name="Login" component={LoginScreen} />
                       <Stack.Screen name="Home" component={HomeStackNavigation} />
-                      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
                       <Stack.Screen name="DiaryScreen" component={DiaryScreen} />
                       <Stack.Screen name="FindScreen" component={FindSreen} />
                       <Stack.Screen name="Book" component={BookScreen} />

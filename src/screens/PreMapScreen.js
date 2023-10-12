@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React, { useEffect } from 'react';
 import { Image } from 'react-native';
-import { preMap } from '../assets/images';
 import styles from '../styles';
 import { useNavigation } from '@react-navigation/native';
 
