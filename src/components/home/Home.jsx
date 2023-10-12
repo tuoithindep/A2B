@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { MagnifyingGlassIcon, XMarkIcon } from 'react-native-heroicons/outline';
-// import * as Location from 'expo-location';
+import Geolocation from 'react-native-geolocation-service';
 import styles from '../../styles';
 import Header from './Header';
 import Result from './Result';
@@ -36,7 +36,8 @@ const Home = () => {
     showProfile();
     historySearch();
     listNotification();
-  }, [context.token]) // dependences: 1 trong cac biến trong mang thay doi thi se thực thi lại useEffect
+    requestLocationService();
+  }, []) // dependences: 1 trong cac biến trong mang thay doi thi se thực thi lại useEffect
 
   useEffect(() => {
     if (isFocused) {
@@ -46,24 +47,6 @@ const Home = () => {
       listNotification();
     }
   }, [isFocused]);
-
-  // useEffect(() => {
-  //   const subscription = Notifications.addNotificationResponseReceivedListener(response => {
-  //     const data = response.notification.request.content.data;
-  //     if (JSON.parse(data.data).trip_id) {
-  //       // console.log(JSON.parse(data.data).trip_id);
-  //       // navigation.navigate(data.screen);
-  //       getDetailTrip(JSON.parse(data.data));
-  //     } else {
-  //       navigation.navigate(data.screen, data.data && JSON.parse(data.data));
-  //     }
-  //   })
-  //   return () => subscription.remove();
-  // }, [])
-
-  const pushNotification = () => {
-    registerIndieID(context.token, 9548, 'lMdBy39oqOxDJr8zzB1f1L');
-  }
 
   const getDetailTrip = async (notiData) => {
     await fetchDetailTrip({
@@ -166,12 +149,13 @@ const Home = () => {
           return false;
         }
       }
-
-      let { coords } = await Location.getCurrentPositionAsync({});
-      if (coords) {
-        await AsyncStorage.setItem('lat', coords.latitude.toString());
-        await AsyncStorage.setItem('lng', coords.longitude.toString());
-      }
+      Geolocation.getCurrentPosition((position) => {
+        console.log(position);
+      },(err) => {
+        console.log(err.code, err.message);
+      },{
+        enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, showLocationDialog: true
+      })
 
     } catch (error) {
       Alert.alert(
@@ -185,14 +169,6 @@ const Home = () => {
       return false;
     }
   };
-
-  useEffect(() => {
-    // const interval = setInterval(requestLocationService, 120000);
-    // requestLocationService()
-    // return () => {
-    //   clearInterval(interval);
-    // };
-  }, []);
 
   const showProfile = async () => {
     await fetchProfileUser(context.token)

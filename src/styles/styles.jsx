@@ -872,6 +872,48 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.24,
         shadowRadius: 4,
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 10,
+        backgroundColor: "white",
+        borderRadius: 10,
+        padding: 15,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        width: '100%'
+    },
+    button: {
+        padding: 10,
+        backgroundColor: "#2196F3",
+        borderRadius: 5,
+        width: 100,
+        alignItems: "center"
+    },
+    buttonText: {
+        color: "white"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.75)', // Màu nền mờ xung quanh
+      },
 });
 export default styles;

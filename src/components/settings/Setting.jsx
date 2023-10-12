@@ -114,7 +114,7 @@ const Setting = () => {
 
     const updateProfile = () => {
         fetchUpdateProfile({
-            image: base64Regex.test(avatar) ? avatar : '',
+            image: avatar ? avatar : '',
             fullName: name,
             birthday: typeof dateOfBirth == 'object' ? dateOfBirth.toISOString().slice(0, 10) : '',
             sex: gender,
