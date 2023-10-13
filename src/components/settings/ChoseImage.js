@@ -24,20 +24,7 @@ const ChoseImage = ({ aspect, avatar, width, height, borderFull, onChangeImage }
             includeBase64: true,
         };
 
-        launchCamera(options, (res) => {
-            if (res.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (res.error) {
-                console.log('Image picker error: ', res.error);
-            } else {
-                let imageUri = res.uri || res.assets?.[0]?.uri;
-                let imageBase64 = res.assets?.[0]?.base64;
-                // onChangeImage(imageBase64)
-                setSelectedImage(imageUri);
-            }
-        })
-        
-        // launchImageLibrary(options, (res) => {
+        // launchCamera(options, (res) => {
         //     if (res.didCancel) {
         //         console.log('User cancelled image picker');
         //     } else if (res.error) {
@@ -45,10 +32,23 @@ const ChoseImage = ({ aspect, avatar, width, height, borderFull, onChangeImage }
         //     } else {
         //         let imageUri = res.uri || res.assets?.[0]?.uri;
         //         let imageBase64 = res.assets?.[0]?.base64;
-        //         onChangeImage(imageBase64)
+        //         // onChangeImage(imageBase64)
         //         setSelectedImage(imageUri);
         //     }
         // })
+        
+        launchImageLibrary(options, (res) => {
+            if (res.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (res.error) {
+                console.log('Image picker error: ', res.error);
+            } else {
+                let imageUri = res.uri || res.assets?.[0]?.uri;
+                let imageBase64 = res.assets?.[0]?.base64;
+                onChangeImage(imageBase64)
+                setSelectedImage(imageUri);
+            }
+        })
         // if (!result.canceled) {
         //     // const response = await fetch(result.assets[0].uri);
         //     // const blob = await response.blob();

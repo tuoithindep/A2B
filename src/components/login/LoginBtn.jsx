@@ -46,7 +46,7 @@ const LoginBtn = () => {
       const {idToken} = await GoogleSignin.signIn();
       const googleCredentials = auth.GoogleAuthProvider.credential(idToken);
       auth().signInWithCredential(googleCredentials);
-      console.log(userInfo.user);
+
       await login(userInfo.user);
     } catch (error) {
       console.log('Fail');

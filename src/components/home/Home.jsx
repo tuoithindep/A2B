@@ -19,6 +19,9 @@ import { StatusBar } from 'react-native';
 import { useNotification } from '../../redux/notificationContext';
 import { statusDriver, statusUser } from '../../constants';
 
+import messaging from '@react-native-firebase/messaging';
+
+
 const Home = () => {
   const { handleHiddenNoti } = useNotification();
   const navigation = useNavigation();
@@ -29,10 +32,8 @@ const Home = () => {
   const [history, setHistory] = useState({});
   const isFocused = useIsFocused();
   const context = useContext(TokenContext);
-  // registerNNPushToken(9548, 'lMdBy39oqOxDJr8zzB1f1L');
 
   useEffect(() => {
-    // pushNotification();
     showProfile();
     historySearch();
     listNotification();
@@ -47,23 +48,59 @@ const Home = () => {
     }
   }, [isFocused]);
 
-  // useEffect(() => {
-  //   const subscription = Notifications.addNotificationResponseReceivedListener(response => {
-  //     const data = response.notification.request.content.data;
-  //     if (JSON.parse(data.data).trip_id) {
-  //       // console.log(JSON.parse(data.data).trip_id);
-  //       // navigation.navigate(data.screen);
-  //       getDetailTrip(JSON.parse(data.data));
-  //     } else {
-  //       navigation.navigate(data.screen, data.data && JSON.parse(data.data));
-  //     }
-  //   })
-  //   return () => subscription.remove();
-  // }, [])
 
-  const pushNotification = () => {
-    registerIndieID(context.token, 9548, 'lMdBy39oqOxDJr8zzB1f1L');
+
+  useEffect(() => {
+    messaging()
+      .subscribeToTopic('1')
+      .then(() => console.log('Subscribed to topic!'));
+
+    // Notification caused app to open from quit state
+    messaging()
+      .getInitialNotification()
+      .then(async (remoteMessage) => {
+        if (remoteMessage) {
+          handleNavigation(remoteMessage)
+        }
+      });
+
+
+    // Notification caused app to open from background state 
+    messaging().onNotificationOpenedApp(async (remoteMessage) => {
+      handleNavigation(remoteMessage)
+    });
+
+    // Register background handler
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background! ', remoteMessage);
+    });
+
+    // Show notification
+    messaging().onMessage(async remoteMessage => {
+      Alert.alert('A2B ', JSON.stringify(remoteMessage.notification.body), [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => (handleNavigation(remoteMessage)) },
+      ]);
+    });
+
+  }, [])
+
+  const handleNavigation = (remoteMessage) => {
+    console.log(remoteMessage.data);
+    const data = remoteMessage.data;
+    // if (JSON.parse(data.data).trip_id) {
+    //   // console.log(JSON.parse(data.data).trip_id);
+    //   // navigation.navigate(data.screen);
+    //   getDetailTrip(JSON.parse(data.data));
+    // } else {
+    //   navigation.navigate(data.screen, data.data && JSON.parse(data.data));
+    // }
   }
+
 
   const getDetailTrip = async (notiData) => {
     await fetchDetailTrip({

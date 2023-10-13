@@ -131,7 +131,7 @@ const Setting = () => {
                     // navigation.navigate('DriverScreen');
                 }
                 else {
-                    alert(data.status.fullname || data.status.birthday || data.status.phone || data.status.bankId || data.status.bankName || data.status.bankNumber || data.status.image)
+                    Alert.alert(data.status.fullname || data.status.birthday || data.status.phone || data.status.bankId || data.status.bankName || data.status.bankNumber || data.status.image)
                 }
             })
             .finally(() => setloading(false))
